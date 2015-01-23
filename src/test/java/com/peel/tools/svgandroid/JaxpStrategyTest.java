@@ -2,6 +2,7 @@
 package com.peel.tools.svgandroid;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.InputStream;
@@ -26,10 +27,11 @@ public class JaxpStrategyTest {
         strategy.convert(document, output);
         String xml = output.toString();
         System.out.println(xml);
-        assertTrue(xml.contains("vector"));
-        assertTrue(xml.contains("xmlns=\"http://schemas.android.com/apk/res/android\""));
-        assertTrue(xml.contains("fillColor"));
-        assertTrue(xml.contains("pathData"));
+        assertTrue(xml.contains("android:vector"));
+        assertTrue(xml.contains("xmlns:android=\"http://schemas.android.com/apk/res/android\""));
+        assertTrue(xml.contains("android:fillColor"));
+        assertTrue(xml.contains("android:pathData"));
+        assertFalse(xml.contains("xmlns=\"http://www.w3.org/2000/svg\""));
     }
 
     @Test

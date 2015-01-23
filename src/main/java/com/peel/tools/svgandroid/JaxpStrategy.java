@@ -30,12 +30,15 @@ public final class JaxpStrategy extends SvgToAndroidStrategy {
     public void convert(Document document, Writer output) throws Exception {
         StringWriter writer = new StringWriter();
         xmlConvert(document, writer);
+        // do remaining changes by string substitution
+        // TODO: figure out XML way of doing this
         String xml = writer.toString();
         xml = xml.replace("height", "android:height");
         xml = xml.replace("width", "android:width");
         xml = xml.replace("viewportHeight", "android:viewportHeight");
         xml = xml.replace("viewportWidth", "android:viewportWidth");
         xml = xml.replace(" standalone=\"no\"", "");
+        xml = xml.replace(" xmlns=\"http://www.w3.org/2000/svg\"", "");
         xml = xml.replaceAll("pathData", "android:pathData");
         xml = xml.replaceAll("fillColor", "android:fillColor");
         output.append(xml);
@@ -52,6 +55,7 @@ public final class JaxpStrategy extends SvgToAndroidStrategy {
         Element svgElement = document.getDocumentElement();
         Element revisedSvgElement = document.createElementNS(
                 "http://schemas.android.com/apk/res/android", svgElement.getNodeName());
+        revisedSvgElement.setPrefix("android");
         NamedNodeMap attributes = svgElement.getAttributes();
         for (int i = 0; i < attributes.getLength(); ++i) {
             Node attribute = attributes.item(i);
@@ -78,8 +82,8 @@ public final class JaxpStrategy extends SvgToAndroidStrategy {
             String viewBox = attributes.getNamedItem("viewBox").getTextContent();
             attributes.removeNamedItem("viewBox");
             String[] parts = viewBox.split(" ");
-            ((Element)node).setAttribute("viewportWidth", parts[2] + "dp");
-            ((Element)node).setAttribute("viewportHeight", parts[3] + "dp");
+            ((Element)node).setAttribute("viewportWidth", parts[2]);
+            ((Element)node).setAttribute("viewportHeight", parts[3]);
         }
     }
 
