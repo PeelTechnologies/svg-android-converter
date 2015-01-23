@@ -18,7 +18,7 @@ import org.w3c.dom.Document;
 public class JaxpStrategyTest {
 
     @Test
-    public void testConversion() throws Exception {
+    public void testJaxpConversion() throws Exception {
         StringWriter output = new StringWriter();
         InputStream input = JaxpStrategyTest.class.getResourceAsStream("/sample.svg");
         JaxpStrategy strategy = new JaxpStrategy();

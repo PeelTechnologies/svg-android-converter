@@ -1,6 +1,7 @@
 // Copyright (C) 2014 Peel Inc.
 package com.peel.tools.svgandroid;
 
+import java.io.StringWriter;
 import java.io.Writer;
 
 import javax.xml.transform.OutputKeys;
@@ -27,6 +28,20 @@ public final class JaxpStrategy extends SvgToAndroidStrategy {
 
     @Override
     public void convert(Document document, Writer output) throws Exception {
+        StringWriter writer = new StringWriter();
+        xmlConvert(document, writer);
+        String xml = writer.toString();
+        xml = xml.replace("height", "android:height");
+        xml = xml.replace("width", "android:width");
+        xml = xml.replace("viewportHeight", "android:viewportHeight");
+        xml = xml.replace("viewportWidth", "android:viewportWidth");
+        xml = xml.replace(" standalone=\"no\"", "");
+        xml = xml.replaceAll("pathData", "android:pathData");
+        xml = xml.replaceAll("fillColor", "android:fillColor");
+        output.append(xml);
+    }
+
+    private void xmlConvert(Document document, Writer output) throws Exception {
         transformSvgNode(document);
         addAndroidNamespaceAsDefault(document);
         replacePathDataAndFillColor(document);
