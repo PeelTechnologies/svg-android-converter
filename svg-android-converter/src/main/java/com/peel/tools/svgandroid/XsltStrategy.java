@@ -15,7 +15,8 @@ import javax.xml.transform.stream.StreamSource;
 import org.w3c.dom.Document;
 
 /**
- * SVG to Android Vector Drawable converter.
+ * SVG to Android Vector Drawable converter using an XSLT transformation.
+ * This is incomplete and doesn't work yet. Use {@link JaxpStrategy} instead.
  *
  * @author Inderjeet Singh
  */
