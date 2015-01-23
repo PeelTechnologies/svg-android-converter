@@ -15,7 +15,7 @@ import org.w3c.dom.Document;
 public class SvgAndroidConverter {
     public static void main(String[] argv) throws Exception {
         if (argv.length != 2) {
-            System.err.println("Usage: java App svgfile outputfile");
+            System.err.println("Usage: androidsvg <svg-file> <vector-drawable-file>");
             System.exit(1);
         }
         InputStream input = new FileInputStream(argv[0]);
