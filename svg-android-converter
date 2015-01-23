@@ -1,4 +1,4 @@
 #/bin/bash
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-java -jar $DIR/svg-android-converter/target/svg-android-converter-1.0-SNAPSHOT.jar $@
+java -jar $DIR/target/svg-android-converter-1.0-SNAPSHOT.jar $@
 
