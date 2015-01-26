@@ -78,7 +78,7 @@ public final class JaxpStrategy extends SvgToAndroidStrategy {
             width.setTextContent(ptToDp(width.getTextContent()));
             Node height = attributes.getNamedItem("height");
             height.setTextContent(ptToDp(height.getTextContent()));
-            attributes.removeNamedItem("version");
+            if (attributes.getNamedItem("version") != null) attributes.removeNamedItem("version");
             String viewBox = attributes.getNamedItem("viewBox").getTextContent();
             attributes.removeNamedItem("viewBox");
             String[] parts = viewBox.split(" ");
@@ -89,16 +89,23 @@ public final class JaxpStrategy extends SvgToAndroidStrategy {
 
     /** converts pt to dp. For example, 480pt to 480dp */
     static String ptToDp(String value) {
-        return value.substring(0, value.length() - 2) + "dp";
+        if (value.endsWith("pt") || value.endsWith("PT")) {
+            value = value.substring(0, value.length() - 2);
+        }
+        return value + "dp";
     }
 
     private void replacePathDataAndFillColor(Document document) {
         NodeList nodes = document.getElementsByTagName("path");
-        for (int i = 0; i < nodes.getLength(); i++) {
+        for (int i = 0; i < nodes.getLength(); ++i) {
             Node node = nodes.item(i);
             NamedNodeMap attributes = node.getAttributes();
-            document.renameNode(attributes.getNamedItem("d"), null, "pathData");
-            document.renameNode(attributes.getNamedItem("fill"), null, "fillColor");
+            if (attributes.getNamedItem("d") != null) {
+                document.renameNode(attributes.getNamedItem("d"), null, "pathData");
+            }
+            if (attributes.getNamedItem("fill") != null) {
+                document.renameNode(attributes.getNamedItem("fill"), null, "fillColor");
+            }
         }
     }
 
